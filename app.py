@@ -71,73 +71,12 @@ if st.button("Rasmni Tekshirish", key="check_button"):
         st.warning("Iltimos, avval rasm yuklang!")
 
 # Natija va grafikni ko‘rsatish
-if st.session_state.uploaded_file is not None:
-    try:
-        # Rasmni yuklash va ko‘rsatish
-        img = PILImage.create(st.session_state.uploaded_file)
-        st.image(img, caption="Yuklangan rasm", use_column_width=True)
-
-        # Modelni yuklash va bashorat qilish
-        model = load_learner(model_path)
-        prediction, _, probs = model.predict(img)
-
-        # Natijani ko‘rsatish
-        st.markdown(f"<div class='stSuccess'>Tasnif: <strong>{prediction}</strong> (Ehtimollik: {probs.max().item():.2%})</div>", unsafe_allow_html=True)
-
-        # Ehtimolliklar uchun grafik
-        st.subheader("Klassifikatsiya Ehtimolliklari")
-        class_names = model.dls.vocab
-        prob_values = probs.numpy() * 100  # Foizga aylantirish
-
-        # Bar chart yaratish
-        chart_data = {
-            "type": "bar",
-            "data": {
-                "labels": list(class_names),
-                "datasets": [{
-                    "label": "Ehtimollik (%)",
-                    "data": prob_values.tolist(),
-                    "backgroundColor": ["#4CAF50", "#FF9800", "#2196F3", "#F44336", "#9C27B0"],
-                    "borderColor": ["#388E3C", "#F57C00", "#1976D2", "#D32F2F", "#7B1FA2"],
-                    "borderWidth": 1
-                }]
-            },
-            "options": {
-                "scales": {
-                    "y": {
-                        "beginAtZero": True,
-                        "title": {
-                            "display": True,
-                            "text": "Ehtimollik (%)"
-                        }
-                    },
-                    "x": {
-                        "title": {
-                            "display": True,
-                            "text": "Klasslar"
-                        }
-                    }
-                },
-                "plugins": {
-                    "legend": {
-                        "display": False
-                    }
-                }
-            }
-        }
-        st.components.v1.html(f"""
-            <div style='background-color: white; padding: 20px; border-radius: 10px;'>
-                <canvas id='myChart'></canvas>
-                <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
-                <script>
-                    const ctx = document.getElementById('myChart').getContext('2d');
-                    new Chart(ctx, {JSON.stringify(chart_data)});
-                </script>
-            </div>
-        """, height=400)
-
-    except Exception as e:
-        st.error(f"Xatolik yuz berdi: {str(e)}")
+# Ehtimolliklar uchun grafik
+st.subheader("Klassifikatsiya Ehtimolliklari")
+class_names = model.dls.vocab
+prob_values = probs.numpy() * 100  # Foizga aylantirish
+chart_data = {name: prob for name, prob in zip(class_names, prob_values)}
+st.bar_chart(chart_data)
 
 # Faylni tozalash tugmasi
 if st.button("Yuklangan Rasmni Tozalash", key="clear_button"):
