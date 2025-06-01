@@ -43,7 +43,7 @@ st.markdown("""
         background-color: #ffffff;
     }
     .stSuccess {
-        background-color: #e6f3e6;
+        background-color: #11a811;
         padding: 10px;
         border-radius: 8px;
         font-weight: bold;
