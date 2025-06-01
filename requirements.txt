@@ -1,2 +1,5 @@
 fastai==2.7.19
+streamlit
+torch==2.6.0
+pillow>=10.0.0
 
