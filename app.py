@@ -1,19 +1,14 @@
-# Kerakli kutubxonalar
 import streamlit as st
 from fastai.vision.all import *
 import pathlib
-import platform
+from fasttransform.transform import Transform, Pipeline
+import pathlib
 import os
-import matplotlib.pyplot as plt
-import numpy as np
-
-# Platformaga mos path sozlamalari
+print(os.path.exists('food_mix.pkl'))
 plt = platform.system()
-if plt == "Linux":
-    pathlib.WindowsPath = pathlib.PosixPath
-else:
-    temp = pathlib.PosixPath
-    pathlib.PosixPath = pathlib.WindowsPath
+if plt =="Linux": pathlib.WindowsPath = pathlib.PosixPath
+temp = pathlib.PosixPath
+pathlib.PosixPath = pathlib.WindowsPath
 
 # Model faylining mavjudligini tekshirish
 model_path = 'teri_kasaligi.pkl'
