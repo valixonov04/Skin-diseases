@@ -1,2 +1,2 @@
-# Skin-diseases
-new ai model
+# Food_mixClassification
+Food_mix classification
