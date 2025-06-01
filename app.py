@@ -1,18 +1,16 @@
 import streamlit as st
 from fastai.vision.all import *
-import platform
-import pathlib
-
-# Platformaga mos ravishda yo'lni sozlash
-plt = platform.system()
-if plt == "Linux":
-    pathlib.WindowsPath = pathlib.PosixPath
+import os
 
 # Model faylining mavjudligini tekshirish
 model_path = 'teri_kasaligi.pkl'
 if not os.path.exists(model_path):
-    st.error("Model fayli topilmadi! Iltimos, 'food_mix.pkl' faylini tekshiring.")
+    st.error(f"Model fayli topilmadi: {model_path}")
+    st.write(f"Current directory: {os.getcwd()}")
     st.stop()
+
+# Modelni yuklash
+model = load_learner(model_path)
 
 # Streamlit sahifasini sozlash
 st.set_page_config(page_title="Teri kasaliglari klassifikatsiyasi 10 ta kasalik uchun.  ", page_icon="💊", layout="centered")
