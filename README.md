@@ -1,2 +1,2 @@
-# Food_mixClassification
-Food_mix classification
+Teri kasaligini classifikatsiya qilib beradi.
+
